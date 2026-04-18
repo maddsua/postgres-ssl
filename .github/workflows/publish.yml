@@ -2,7 +2,12 @@ name: Publish to GHCR
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
+    paths:
+      - Dockerfile
+      - postgres-ssl.sh
+      - .github/workflows/publish.yml
 
 env:
   REGISTRY: ghcr.io
