@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: postgres-pod
+  name: postgres
+spec:
+  containers:
+  - name: pg
+    image: ghcr.io/maddsua/postgres-ssl:17-vector
+    env:
+    - name: POSTGRES_USER
+      value: ${POSTGRES_USER_VAL}
+    - name: POSTGRES_PASSWORD
+      value: ${POSTGRES_PASSWORD_VAL}
+    - name: POSTGRES_DB
+      value: ${POSTGRES_DB_VAL}
+    ports:
+    - containerPort: 5432
+      hostPort: 5432
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: postgres-pg_data-pvc
+    securityContext:
+      runAsNonRoot: true
+  volumes:
+  - name: postgres-pg_data-pvc
+    persistentVolumeClaim:
+      claimName: postgres-pg_data

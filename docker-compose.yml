@@ -1,0 +1,20 @@
+# Example docker-compose file template
+volumes:
+  pg_data:
+
+services:
+  postgres:
+    image: ghcr.io/maddsua/postgres-ssl:17-vector
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_VAL}
+      POSTGRES_USER: ${POSTGRES_USER_VAL}
+      POSTGRES_DB: ${POSTGRES_DB_VAL}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    deploy:
+      update_config:
+        delay: 0s
+        failure_action: rollback
+        order: stop-first
